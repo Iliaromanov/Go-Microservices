@@ -1,14 +1,14 @@
 package main
 
 import (
-	"github.com/Iliaromanov/Go-practice/gRPC/proto"
+	"github.com/Iliaromanov/Go-Microservices/gRPC/proto"
 	"github.com/gin-gonic/gin" // using gin for creating api endpoints
 	"google.golang.org/grpc"
 )
 
 func main() {
 	conn, err := grpc.Dial("localhost:8000", grpc.WithInsecure()); // connect to server on port 8000 as defined in server
-	// .WithInsecure because server is not using HTTPs
+	// .WithInsecure because server is not using HTTPS
 	if err != nil {
 		panic(err);
 	}

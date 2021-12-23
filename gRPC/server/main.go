@@ -4,7 +4,7 @@ package main
 import (
 	"context"
 	"net"
-	"github.com/Iliaromanov/Go-practice/gRPC/proto"
+	"github.com/Iliaromanov/Go-Microservices/gRPC/proto"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
