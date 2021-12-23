@@ -40,3 +40,5 @@ service NameOfService {
   The Request and Response in the above eg. should be defined with the 'message' keyword.
 - Proto files are compiled into Go files
 > `protoc --proto_path=proto --proto_path=third_party --go_out=plugins=grpc:proto service.proto`
+
+use `protoc.exe` if on windows
