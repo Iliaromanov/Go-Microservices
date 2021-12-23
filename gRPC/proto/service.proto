@@ -3,16 +3,27 @@ syntax = "proto3";
 package proto;
 option go_package = "/proto";
 
-message Request {
-    int64 a = 1;
+// message data type is used for creating ds 
+//  for serialization of requests
+message Request { // note it doesn't need to be named Request
+    // numbers on rhs denote the size (in bytes)
+    //   that the value on the lhs will take after
+    //   being serialized.
+    // Each value needs to have a unique number attached.
+    //   1-15 denotes => 1 byte, 16-2047 => 2 bytes, ...
+    int64 a = 1; 
     int64 b = 2;
 }
 
-message Response {
+// Same concepts as requests but for responses
+message Response {// note it doesn't need to be named Response
     int64 result = 1;
 }
 
+// service keyword used to define service
 service AddService {
+    // format to add a service function:
+    //   rpc NameOfFunc(request_type) returns (response_type);
     rpc Add(Request) returns (Response);
     rpc Multiply(Request) returns (Response);
 }
