@@ -28,7 +28,7 @@ message Request {
   int64 b = 2;
 }
 ```
-  The numbers that a,b are set to denote the size of those variables within the buffer when serialized. Eg. nubmers 1-15 mean those values will take up 1 byte when the request is serialized, so a,b above will take up 1 byte each. 166-2047 mean the values will take up 2 bytes.
+  The numbers that a,b are used for serialization. Rhs being 1-15 means the keys to the lhs values will take up 1 byte in the buffer when the request is serialized. 16-2047 means the keys take up 2 bytes.
 - define a service using the 'service' keyword. Eg:
 ```Go
 service NameOfService {
