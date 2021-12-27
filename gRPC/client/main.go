@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
+	"log"
 
 	"github.com/Iliaromanov/Go-Microservices/gRPC/proto"
-	"github.com/gin-gonic/gin" // using gin for creating api endpoints
+	"github.com/gin-gonic/gin" // using gin for making requests to api endpoints
 	"google.golang.org/grpc"
 )
 
@@ -17,6 +19,8 @@ func main() {
 	}
 
 	// create a client object using the generated NewAddServiceClient method
+	// this client can be used to call our created server methods
+	// ***The client will be a REST server itself, although it doesn't have to be***
 	client := proto.NewAddServiceClient(conn);
 
 	// create a gin object which can be used for creating endpoint methods
@@ -24,10 +28,11 @@ func main() {
 
 	// add .GET method endpoints for our created server methods
 	//	passing their arguments through URL parameters
+	// ctx.JSON will be the response JSON result of the request
 	g.GET("/add/:a/:b", func(ctx *gin.Context) {
 		// ParseInt(str, base, bitSize)
 		// ctx.Param("a") gets the string in place of :a in the url
-		a, err := strconv.ParseInt(ctx.Param("a"), 10, 64);
+		a, err := strconv.ParseInt(ctx.Param("a"), 10, 64); 
 		if err != nil {
 			// gin.H adds a new key-value pair to the JSON response
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Parameter A"});
@@ -43,8 +48,19 @@ func main() {
 
 		request := &proto.Request{A: int64(a), B: int64(b)};
 
-	})
+		// pass the gin context and our created request to our server Add method using client
+		if response, err := client.Add(ctx, request); err == nil {
+			ctx.JSON(http.StatusOK, gin.H{
+				"result": fmt.Sprint(response.Result),
+			})
+		} else {
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+		}
 
+	})
+	
 	g.GET("/mult/:a/:b", func(ctx *gin.Context) {
 		a, err := strconv.ParseInt(ctx.Param("a"), 10, 64);
 		if err != nil {
@@ -59,5 +75,20 @@ func main() {
 		}
 
 		request := &proto.Request{A: int64(a), B: int64(b)};
+
+		if response, err := client.Multiply(ctx, request); err == nil {
+			ctx.JSON(http.StatusOK, gin.H{
+				"result": fmt.Sprint(response.Result),
+			})
+		} else {
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+		}
 	})
+
+	// Run the gin client REST server on a different port from our main gRPC server
+	if err := g.Run(":4000"); err != nil {
+		log.Fatalf("Failed to run client: %v", err);
+	}
 }
