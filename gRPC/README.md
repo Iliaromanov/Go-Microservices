@@ -1,3 +1,21 @@
+## Running the API Server and Client Server
+
+- Run API GRPC Server:
+> `go run server/main.go`
+ 
+- Run Client REST Server:
+> `go run client/main.go`
+
+URL for addition method:
+
+http://localhost:4000/add/A/B
+where A and B are some integers
+
+URL for multiplication method:
+
+http://localhost:4000/mult/A/B
+where A and B are some integers
+
 ## General Notes
 
 https://grpc.io/ 
@@ -44,21 +62,3 @@ service NameOfService {
   use `protoc.exe` if on windows
   
 - The third_party folder is required to compile the .proto file and its path must be provided in the --proto_path flag in the command above. (its location relative to other files does not have to be the same as it is in this repo, it just has to be accessable when compiling)
-
-### Running the API Server and Client Server
-
-- Run API GRPC Server:
-> `go run server/main.go`
- 
-- Run Client REST Server:
-> `go run client/main.go`
-
-URL for addition method:
-
-http://localhost:4000/add/A/B
-where A and B are some integers
-
-URL for multiplication method:
-
-http://localhost:4000/mult/A/B
-where A and B are some integers
