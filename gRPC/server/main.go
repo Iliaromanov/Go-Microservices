@@ -18,10 +18,11 @@ func main() {
 		panic(err);
 	}
 
-	srv := grpc.NewServer();  // create new gRPC server
+	srv := grpc.NewServer();  // create new gRPC server (from google.golang.org/grpc)
 	proto.RegisterAddServiceServer(srv, &server{}); // register our service on the created server
 	reflection.Register(srv); // for serializing and de-serializing
 
+	// call serve on created server and have it listen on tcp 8000
 	if e := srv.Serve(listener); e != nil {
 		panic(e);
 	}
@@ -37,6 +38,6 @@ func (s *server) Add(ctxt context.Context, request *proto.Request) (*proto.Respo
 
 func (s *server) Multiply(ctxt context.Context, request *proto.Request) (*proto.Response, error) {
 	a, b := request.GetA(), request.GetB();
-	result := a*b;
+	result := a * b;
 	return &proto.Response{Result:result}, nil;
 }
