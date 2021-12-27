@@ -54,9 +54,11 @@ service NameOfService {
 > `go run client/main.go`
 
 URL for addition method:
+
 http://localhost:4000/add/A/B
 where A and B are some integers
 
 URL for multiplication method:
+
 http://localhost:4000/mult/A/B
 where A and B are some integers
