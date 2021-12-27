@@ -41,4 +41,6 @@ service NameOfService {
 - Proto files are compiled into Go files
 > `protoc --proto_path=proto --proto_path=third_party --go_out=plugins=grpc:proto service.proto`
 
-use `protoc.exe` if on windows
+  use `protoc.exe` if on windows
+  
+- The third_party folder is required to compile the .proto file and its path must be provided in the --proto_path flag in the command above. (its location relative to other files does not have to be the same as it is in this repo, it just has to be accessable when compiling)
