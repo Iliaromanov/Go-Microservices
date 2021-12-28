@@ -1,3 +1,7 @@
+# Arithmetic API
+
+Simple RPC API that allows addition and multiplication of two integers built using GRPC and protobuf
+
 ## Running the API Server and Client Server
 
 - Run API GRPC Server:
