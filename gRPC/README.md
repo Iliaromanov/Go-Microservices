@@ -1,3 +1,25 @@
+# Arithmetic API
+
+Simple RPC API that allows addition and multiplication of two integers built using GRPC and protobuf
+
+## Running the API Server and Client Server
+
+- Run API GRPC Server:
+> `go run server/main.go`
+ 
+- Run Client REST Server:
+> `go run client/main.go`
+
+URL for addition method:
+
+http://localhost:4000/add/A/B
+where A and B are some integers
+
+URL for multiplication method:
+
+http://localhost:4000/mult/A/B
+where A and B are some integers
+
 ## General Notes
 
 https://grpc.io/ 
@@ -28,7 +50,7 @@ message Request {
   int64 b = 2;
 }
 ```
-  The numbers that a,b are used for serialization. Rhs being 1-15 means the keys to the lhs values will take up 1 byte in the buffer when the request is serialized. 16-2047 means the keys take up 2 bytes.
+  The numbers that a and b are set to are there for serialization. Rhs being 1-15 means the keys to the lhs values will take up 1 byte in the buffer when the request is serialized. 16-2047 means the keys take up 2 bytes.
 - define a service using the 'service' keyword. Eg:
 ```Go
 service NameOfService {
@@ -44,21 +66,3 @@ service NameOfService {
   use `protoc.exe` if on windows
   
 - The third_party folder is required to compile the .proto file and its path must be provided in the --proto_path flag in the command above. (its location relative to other files does not have to be the same as it is in this repo, it just has to be accessable when compiling)
-
-### Running the API Server and Client Server
-
-- Run API GRPC Server:
-> `go run server/main.go`
- 
-- Run Client REST Server:
-> `go run client/main.go`
-
-URL for addition method:
-
-http://localhost:4000/add/A/B
-where A and B are some integers
-
-URL for multiplication method:
-
-http://localhost:4000/mult/A/B
-where A and B are some integers
