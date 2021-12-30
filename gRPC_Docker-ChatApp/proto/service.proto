@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package proto;
+option go_package = "/proto";
 
 // structure to represent client connecting to the chat server
 message User {
