@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package proto;
+
+// structure to represent client connecting to the chat server
+message User {
+    string id = 1;
+    string name = 2;
+}
+
+// structure to represent messages sent to the chat server
+message Message {
+    string id = 1;  // id of user who sent the msg
+    string content = 2;
+    string timestamp = 3;
+}
+
+// structure for server to keep track of whether a connected client is active or not
+message Connect {
+    User user = 1;
+    bool active = 2;
+}
+
+
+message Close{}
+
+
+service Broadcast {
+    // Recieves a Connect message as request, returns a stream of Message objects
+    //   (returns Message objects until there aren't any left)
+    // Used for retrieving messages
+    rpc CreateStream(Connect) returns (stream Message);
+
+    // Used for returning messages to the client
+    rpc BroadcastMessage(Message) returns (Close);
+}
