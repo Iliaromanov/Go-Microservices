@@ -1,5 +1,5 @@
 # Go-Microservices
-Collection of microservices written in Go
+This repo contains small backend projects that I make as I learn about microservice development in Go, utilizing tools such as gRPC and Docker.
 
 ### Available Services:
 - [Arithmetic API with gRPC and protobuf](gRPC)
