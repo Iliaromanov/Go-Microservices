@@ -22,19 +22,39 @@ type Connection struct {
 	stream proto.Broadcast_CreateStreamServer // allows streaming messages between server and client
 	id 	   string
 	active bool
-	// channel for errors, channels are used for sending and recieving data
+	// channel for errors. channels are used for sending and recieving data
 	// useful info on channels in go: https://www.geeksforgeeks.org/channel-in-golang/ 
 	error  chan error // channel because using go routines
 }
+
+// Our server struct will be used to implement the RPC and will hold a slice of Connection pointers
+type Server struct {
+	Connection []*Connection
+}
+
+
+func (s *Server) CreateStream(pconn *proto.Connect, stream proto.Broadcast_CreateStreamServer) error {
+	// Create a new connection
+	conn := &Connection{
+		stream: stream,
+		id:		pconn.User.Id,
+		active: true,
+		error:  make(chan error),
+	}
+
+	// Append the newly created connection to the servers connection
+	s.Connection = append(s.Connection, conn);
+
+	// <- operator is used to pass information from a channel
+	return <- conn.error;
+}
+
+func (s *Server) BroadcastMessage(ctxt context.Context, msg *proto.Message) (*proto.Close, error) {
+
+}
+
 
 func main() {
 
 }
 
-func (s * server) CreateStream(ctxt context.Context, conn *proto.Connect) (*proto.Message, error) {
-
-}
-
-func (s *server) BroadcastMessage(ctxt context.Context, msg *proto.Message) (*proto.Close, error) {
-
-}
